@@ -80,7 +80,7 @@ while($row = mysqli_fetch_assoc($data)) {
       });
 
       function edit_entry(key, value){
-        Swal({
+        Swal.fire({
             title: 'Editing : "' + key + '"',
             type: 'info',
             html: "<form id='swal-form' method='post'>"+
