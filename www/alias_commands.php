@@ -47,7 +47,7 @@ $count = db_query($db, "SELECT COUNT(`alias`) as value FROM alias_commands")['va
 <!DOCTYPE html>
 <html lang="fr">
   <head>
-      <title>Alias Commands - <?php echo $bot_name; ?></title>
+      <title>Alias Commands - Raph_BOT</title>
       <?php include("src/html/header.html"); ?>
   </head>
 

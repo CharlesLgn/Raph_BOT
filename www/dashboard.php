@@ -8,7 +8,7 @@ $lastestlog = shell_exec('cat '.dirname(__FILE__)."/core/".'lastest.log');
 <!DOCTYPE html>
 <html lang="fr">
   <head>
-      <title>Dashboard - <?php echo $bot_name; ?></title>
+      <title>Dashboard - Raph_BOT</title>
       <?php include("src/html/header.html"); ?>
   </head>
 
