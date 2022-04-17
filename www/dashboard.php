@@ -23,7 +23,6 @@ $lastestlog = shell_exec('cat '.dirname(__FILE__)."/core/".'lastest.log');
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
       <h1 class="page-header">Dashboard
         <button onclick="start_stop()" type="button" class="btn btn-success" id="btn-start-stop"><i id="ico-start-stop" class="glyphicon glyphicon-play"></i></button>
-        <button onclick="annonce()" type="button" class="btn btn-info" id="btn-annonce" style='display:none'><i id="ico-start-stop" class="glyphicon glyphicon-send"></i></button>
       </h1>
 
       <div class="row">
