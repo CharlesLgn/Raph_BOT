@@ -4,3 +4,4 @@ require_once('src/php/access.php');
 
 global $db;
 $db = db_connect();
+$UUID = $_SESSION['UUID'];
