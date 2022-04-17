@@ -3,17 +3,15 @@ require_once('src/php/header.php');
 
 //POST
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-  if($_POST['action'] == "add" && !empty($_POST['key']) && !empty($_POST['value'])){
-    $key = strtolower(addslashes(trim($_POST['key'])));
-    $value = addslashes(trim($_POST['value']));
-    $query = "REPLACE INTO alias_commands VALUES ('".$key."', '".$value."')";
-    db_query_no_result($db, $query);
+  if($_POST['action'] == "add" && !empty($_POST['alias']) && !empty($_POST['command'])){
+    $alias = sanitise_input($db, $_POST['alias']);
+    $command = sanitise_input($db, $_POST['command']);
+    db_query_no_result($db, "INSERT INTO `alias_commands` VALUES (NULL, '$UUID', '$alias', '$command')");
   }
 
-  if($_POST['action'] == "del"){
-    $key = $_POST['key'];
-    $query = 'DELETE FROM alias_commands WHERE alias_commands.alias="'.$key.'"';
-    db_query_no_result($db, $query);
+  if($_POST['action'] == "del" && !empty($_POST['alias'])){
+    $alias = sanitise_input($db, $_POST['alias']);
+    db_query_no_result($db, "DELETE FROM `alias_commands` WHERE `UUID` = '$UUID' AND `alias` = '$alias'");
   }
 
   header('Location: alias_commands.php');
@@ -22,25 +20,25 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 // Listing
 $HTML = "";
-$data = db_query_raw($db, "SELECT * FROM alias_commands ORDER BY alias_commands.command ASC");
+$data = db_query_raw($db, "SELECT * FROM `alias_commands` WHERE `UUID` = '$UUID' ORDER BY command ASC");
 while($row = mysqli_fetch_assoc($data)) {
   $HTML .= "
   <tr>
-      <td>".$row["alias"]."</td>
       <td>".$row["command"]."</td>
+      <td>".$row["alias"]."</td>
       <td><button type='button' class='btn btn-danger' onclick='del_entry(\"".$row['alias']."\")'><i class='glyphicon glyphicon-remove'></i></button></td>
   </tr>";
 }
 
 // Building options list
 $command_options = "";
-$data = db_query_raw($db, "SELECT commands.key FROM commands ORDER BY commands.key ASC");
+$data = db_query_raw($db, "SELECT `command` FROM `commands` WHERE `UUID` = '$UUID' ORDER BY `command` ASC");
 while($row = mysqli_fetch_assoc($data)) {
-  $command_options .= '<option>'.$row["key"].'</option>';
+  $command_options .= '<option>'.$row["command"].'</option>';
 }
 
 // Count
-$count = db_query($db, "SELECT COUNT(`alias`) as value FROM alias_commands")['value'];
+$count = db_query($db, "SELECT COUNT(`alias`) as value FROM alias_commands WHERE `UUID` = '$UUID'")['value'];
 
 ?>
 
@@ -69,8 +67,8 @@ $count = db_query($db, "SELECT COUNT(`alias`) as value FROM alias_commands")['va
         <table class="table table-hover table-condensed">
           <thead>
             <tr>
-                <th class="col-xs-6">Alias</th>
                 <th class="col-xs-6">Command</th>
+                <th class="col-xs-6">Alias</th>
                 <th class="col-xs-1"></th>
             </tr>
           </thead>
@@ -94,8 +92,8 @@ $count = db_query($db, "SELECT COUNT(`alias`) as value FROM alias_commands")['va
             title: "Add entry",
             html:   "<form id='swal-form' method='post'>"+
                     "<input type='hidden' name='action' value='add'>"+
-                    "<label>Alias</label><input type='text' class='form-control' name='key' required><br/>"+
-                    "<label>Command</label><select class='form-control' name='value' required><option disabled selected> - Select a command - </option><?php echo $command_options; ?></select>"+
+                    "<label>Alias</label><input type='text' class='form-control' name='alias' required><br/>"+
+                    "<label>Command</label><select class='form-control' name='command' required><option disabled selected> - Select a command - </option><?php echo $command_options; ?></select>"+
                     "</form>",
             showCancelButton: true,
             showConfirmButton: confirm,
@@ -110,9 +108,9 @@ $count = db_query($db, "SELECT COUNT(`alias`) as value FROM alias_commands")['va
         });
       }
 
-      function del_entry(key){
-        Swal({
-          title: "Delete '" + key + "' ?",
+      function del_entry(alias){
+        Swal.fire({
+          title: "Delete '" + alias + "' ?",
           type: 'question',
           showCancelButton: true,
           confirmButtonColor: '#d33',
@@ -121,7 +119,7 @@ $count = db_query($db, "SELECT COUNT(`alias`) as value FROM alias_commands")['va
           focusCancel: true
         }).then((result) => {
           if (result.value) {
-              $.post("alias_commands.php", { action : "del", key: key }, function(data){
+              $.post("alias_commands.php", { action : "del", alias: alias }, function(data){
                   document.location.reload();
               }); 
           }
