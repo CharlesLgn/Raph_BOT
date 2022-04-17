@@ -3,22 +3,22 @@ require_once('src/php/header.php');
 
 // POST
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-  if($_POST['action'] == "add" && !empty($_POST['key'])){
-    $key = strtolower(addslashes(trim($_POST['key'])));
-    $value = addslashes(trim($_POST['value']));
-    db_query_no_result($db, "INSERT INTO commands VALUES (NULL, '$UUID', '$key', '$value', 0)");
+  if($_POST['action'] == "add" && !empty($_POST['command'])){
+    $command = strtolower(addslashes(trim($_POST['command'])));
+    $text = addslashes(trim($_POST['text']));
+    db_query_no_result($db, "INSERT INTO `commands` VALUES (NULL, '$UUID', '$command', '$text', 0)");
   }
 
-  if($_POST['action'] == "del" && !empty($_POST['key'])){
-    $key = addslashes(trim($_POST['key']));
-    db_query_no_result($db, "DELETE FROM commands WHERE `UUID` = '$UUID' AND commands.key = '$key'");
+  if($_POST['action'] == "del" && !empty($_POST['command'])){
+    $command = addslashes(trim($_POST['command']));
+    db_query_no_result($db, "DELETE FROM `commands` WHERE `UUID` = '$UUID' AND `command` = '$command'");
   }
 
-  if($_POST['action'] == "edit" && !empty($_POST['key'])){
-    $key = addslashes(trim($_POST['key']));
-    $value = addslashes(trim($_POST['value']));
+  if($_POST['action'] == "edit" && !empty($_POST['command'])){
+    $command = addslashes(trim($_POST['command']));
+    $text = addslashes(trim($_POST['text']));
     $auto = isset($_POST['auto']) ? 1 : 0;
-    db_query_no_result($db, "UPDATE `commands` SET `value` = '$value', `auto` = '$auto' WHERE `UUID` = '$UUID' AND commands.key = '$key'");
+    db_query_no_result($db, "UPDATE `commands` SET `text` = '$text', `auto` = '$auto' WHERE `UUID` = '$UUID' AND `command` = '$command'");
   }
 
   header('Location: commands.php');
@@ -31,20 +31,20 @@ $result = db_query_raw($db, "SELECT * FROM commands WHERE `UUID` = '$UUID'");
 while($row = mysqli_fetch_assoc($result)) {
     $HTML .= "
     <tr>
-        <td>".$row["key"]."</td>
+        <td>".$row["command"]."</td>
         <td><input type='checkbox' class='checkbox' ".($row['auto'] ? "checked" : "")." disabled></td>
-        <td id='value_".$row["key"]."'>".$row["value"]."</td>
+        <td id='value_".$row["command"]."'>".$row["text"]."</td>
         <td>
           <span class='pull-right'>
-            <button onClick='edit_entry(\"".$row["key"]."\", \"".$row["auto"]."\")' class='btn btn-warning' type='button'><i class='glyphicon glyphicon-pencil'></i></button>
-            <button type='button' class='btn btn-danger' onclick='del_entry(\"".$row['key']."\")'><i class='glyphicon glyphicon-remove'></i></button>
+            <button onClick='edit_entry(\"".$row["command"]."\", \"".$row["auto"]."\")' class='btn btn-warning' type='button'><i class='glyphicon glyphicon-pencil'></i></button>
+            <button type='button' class='btn btn-danger' onclick='del_entry(\"".$row['command']."\")'><i class='glyphicon glyphicon-remove'></i></button>
           </span>
         </td>
     </tr>";
 }
 
 // Count
-$count = db_query($db, "SELECT COUNT(`key`) as value FROM commands WHERE `UUID` = '$UUID'")['value'];
+$count = db_query($db, "SELECT COUNT(`command`) as value FROM commands WHERE `UUID` = '$UUID'")['value'];
 
 ?>
 
@@ -100,8 +100,8 @@ $count = db_query($db, "SELECT COUNT(`key`) as value FROM commands WHERE `UUID` 
             title: "Add entry",
             html:   "<form id='swal-form' method='post'>"+
                     "<input type='hidden' name='action' value='add'>"+
-                    "<label>Command</label><input type='text' class='form-control' name='key' placeholder='Command' required><br/>"+
-                    "<label>Answer</label><input type='text' class='form-control' name='value' placeholder='Answer' required><br/>"+
+                    "<label>Command</label><input type='text' class='form-control' name='command' placeholder='Command' required><br/>"+
+                    "<label>Answer</label><input type='text' class='form-control' name='text' placeholder='Answer' required><br/>"+
                     "</form>",
             showCancelButton: true,
             showConfirmButton: confirm,
@@ -127,7 +127,7 @@ $count = db_query($db, "SELECT COUNT(`key`) as value FROM commands WHERE `UUID` 
           focusCancel: true
         }).then((result) => {
           if (result.value) {
-              $.post("commands.php", { action : "del", key: key }, function(data){
+              $.post("commands.php", { action : "del", command: key }, function(data){
                   document.location.reload();
               }); 
           }
@@ -147,8 +147,8 @@ $count = db_query($db, "SELECT COUNT(`key`) as value FROM commands WHERE `UUID` 
             type: 'info',
             html: "<form id='swal-form' method='post'>"+
                   "<input type='hidden' name='action' value='edit'>"+
-                  "<input type='hidden' name='key' value='" + key + "'>"+
-                  "<label>Text</label><input class='form-control' type='text' name='value' value=\"" + value + "\">"+
+                  "<input type='hidden' name='command' value='" + key + "'>"+
+                  "<label>Text</label><input class='form-control' type='text' name='text' value=\"" + value + "\">"+
                   "<label>Auto</label><input class='form-control' type='checkbox' name='auto' " + checkbox + ">"+
                   "</form>",
             showCancelButton: true,
