@@ -1,6 +1,6 @@
 var socket = require('socket.io')
 var fs = require('fs');
-var stream_log = fs.createWriteStream(__dirname + "/lastest.log", {flags:'a'});
+var stream_log = null;
 
 // Socket server
 const io = new socket.Server(require('../www/src/port.json')['socket_port']);
@@ -20,6 +20,7 @@ var GUI = {
 
 function init(config_init){
     config = config_init;
+    stream_log = fs.createWriteStream(__dirname + "/logs/lastest_" + config["UUID"] + ".log", {flags:'a'});
     log("[CORE] Started (" + config["version"] + ") with UUID : '" + config["UUID"] + "'");
 }
 
