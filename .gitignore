@@ -1,0 +1,17 @@
+# Log file
+log/error_bot.log
+core/lastest.log
+core/debug.log
+
+# Config File
+src/config.json
+src/port.json
+
+# Test file
+test.*
+
+# Audio folder
+src/audio
+
+# Node_modules
+node_modules
