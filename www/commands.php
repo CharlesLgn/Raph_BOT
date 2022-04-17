@@ -6,7 +6,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
   if($_POST['action'] == "add" && !empty($_POST['key'])){
     $key = strtolower(addslashes(trim($_POST['key'])));
     $value = addslashes(trim($_POST['value']));
-    db_query_no_result($db, "INSERT INTO commands VALUES ('NULL', '$UUID', '$key', '$value', 0)");
+    db_query_no_result($db, "INSERT INTO commands VALUES (NULL, '$UUID', '$key', '$value', 0)");
   }
 
   if($_POST['action'] == "del" && !empty($_POST['key'])){
@@ -117,7 +117,7 @@ $count = db_query($db, "SELECT COUNT(`key`) as value FROM commands WHERE `UUID` 
       }
 
       function del_entry(key){
-        Swal({
+        Swal.fire({
           title: "Delete '" + key + "' ?",
           type: 'question',
           showCancelButton: true,
@@ -142,7 +142,7 @@ $count = db_query($db, "SELECT COUNT(`key`) as value FROM commands WHERE `UUID` 
         else
           checkbox = "";
 
-        Swal({
+        Swal.fire({
             title: 'Editing : "' + key + '"',
             type: 'info',
             html: "<form id='swal-form' method='post'>"+
