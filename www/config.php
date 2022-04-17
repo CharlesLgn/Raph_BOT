@@ -7,7 +7,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
   if( $_POST['action'] == "edit" && !empty($_POST['id'])){
     $id = addslashes(trim($_POST['id']));
     $value = addslashes(trim($_POST['value']));
-    db_query_no_result($db, "UPDATE `config` SET `value` = '$value' WHERE `id` = '$id'");
+    db_query_no_result($db, "UPDATE `config` SET `value` = '$value' WHERE `id` = '$id' and `UUID` = '$UUID'");
   }
 
   header('Location: config.php');
@@ -16,7 +16,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 
 // Listing
-$data = db_query_raw($db, "SELECT * FROM config ORDER BY id");
+$data = db_query_raw($db, "SELECT * FROM config WHERE `UUID` = '$UUID' ORDER BY id");
 $list = "";
 while($row = mysqli_fetch_assoc($data)) {
     // Hidden value
@@ -41,7 +41,7 @@ while($row = mysqli_fetch_assoc($data)) {
 <!DOCTYPE html>
 <html>
   <head>
-      <title>Configuration - <?php echo $bot_name; ?></title>
+      <title>Configuration - Raph_BOT</title>
       <?php include("src/html/header.html"); ?>
   </head>
 
