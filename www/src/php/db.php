@@ -47,3 +47,16 @@ function db_query_raw($db, $request){
 
     return $res;
 }
+
+function sanitise_input($db, $string){
+    $string = trim($string);
+
+    if(ctype_digit($string)){
+        $string = intval($string);
+    }
+    else{
+        $string = mysqli_real_escape_string($db, $string);
+    }
+
+    return $string;
+}
