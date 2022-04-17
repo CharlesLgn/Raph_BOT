@@ -8,7 +8,7 @@ $db = db_connect();
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $username = addslashes(trim($_POST['username']));
     $password = addslashes(trim($_POST['password']));
-    $row = db_query_raw($db, "SELECT `password` FROM `users` WHERE `username` = '$username'");
+    $row = db_query_raw($db, "SELECT `password`, `UUID` FROM `users` WHERE `username` = '$username'");
 
     if(mysqli_num_rows($row)){
         $row = mysqli_fetch_assoc($row);
@@ -25,6 +25,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         if(password_verify($password, $row['password'])){
             $_SESSION['username'] = $username;
             $_SESSION['login'] = true;
+            $_SESSION['UUID'] = $row["UUID"];
             header('Location: ./dashboard.php'); 
             exit();
         }
