@@ -1,7 +1,7 @@
 <?php
 
 function db_connect(){
-    $config_JSON = json_decode(file_get_contents("src/config.json"), true);
+    $config_JSON = json_decode(file_get_contents("../config.json"), true);
 
     $db = mysqli_connect($config_JSON["db_host"], $config_JSON["db_user"], $config_JSON["db_pass"], $config_JSON["db_name"]); 
     mysqli_set_charset ($db, "utf8");
