@@ -4,7 +4,7 @@ core/lastest.log
 core/debug.log
 
 # Config File
-www/src/config.json
+config.json
 www/src/port.json
 
 # Test file
