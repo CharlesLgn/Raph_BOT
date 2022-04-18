@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : lun. 18 avr. 2022 à 15:53
+-- Généré le : lun. 18 avr. 2022 à 17:02
 -- Version du serveur :  10.5.12-MariaDB-0+deb11u1
 -- Version de PHP : 7.4.25
 
@@ -61,17 +61,6 @@ CREATE TABLE `config` (
   `value` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Déchargement des données de la table `config`
---
-
-INSERT INTO `config` (`#`, `UUID`, `id`, `value`) VALUES
-(1, 'b139f5fc-720d-4e39-b425-b5137057f2f6', 'twitch_channel', 'Your twitch channel'),
-(2, 'b139f5fc-720d-4e39-b425-b5137057f2f6', 'cmd_prefix', '!'),
-(3, 'b139f5fc-720d-4e39-b425-b5137057f2f6', 'twitch_connection_message', 'Your welcome message'),
-(4, 'b139f5fc-720d-4e39-b425-b5137057f2f6', 'cmd_time_interval', '0'),
-(5, 'b139f5fc-720d-4e39-b425-b5137057f2f6', 'cmd_msg_interval', '0');
-
 -- --------------------------------------------------------
 
 --
@@ -83,12 +72,20 @@ CREATE TABLE `ports` (
   `port` smallint(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
 --
--- Déchargement des données de la table `ports`
+-- Structure de la table `reactions`
 --
 
-INSERT INTO `ports` (`UUID`, `port`) VALUES
-('b139f5fc-720d-4e39-b425-b5137057f2f6', 3000);
+CREATE TABLE `reactions` (
+  `#` int(11) NOT NULL,
+  `UUID` varchar(36) NOT NULL,
+  `key` varchar(30) NOT NULL,
+  `reaction` text NOT NULL,
+  `frequency` int(11) NOT NULL,
+  `timeout` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -101,13 +98,6 @@ CREATE TABLE `users` (
   `username` varchar(20) NOT NULL,
   `password` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Déchargement des données de la table `users`
---
-
-INSERT INTO `users` (`UUID`, `username`, `password`) VALUES
-('b139f5fc-720d-4e39-b425-b5137057f2f6', 'admin', NULL);
 
 --
 -- Index pour les tables déchargées
@@ -139,6 +129,12 @@ ALTER TABLE `ports`
   ADD UNIQUE KEY `port` (`port`);
 
 --
+-- Index pour la table `reactions`
+--
+ALTER TABLE `reactions`
+  ADD PRIMARY KEY (`#`);
+
+--
 -- Index pour la table `users`
 --
 ALTER TABLE `users`
@@ -165,13 +161,19 @@ ALTER TABLE `commands`
 -- AUTO_INCREMENT pour la table `config`
 --
 ALTER TABLE `config`
-  MODIFY `#` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `#` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `ports`
 --
 ALTER TABLE `ports`
-  MODIFY `port` smallint(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3001;
+  MODIFY `port` smallint(6) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `reactions`
+--
+ALTER TABLE `reactions`
+  MODIFY `#` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
