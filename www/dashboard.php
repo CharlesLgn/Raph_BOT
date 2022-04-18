@@ -1,7 +1,7 @@
 <?php
 require_once('src/php/header.php');
 
-$lastestlog = shell_exec('cat '.dirname(__FILE__)."/core/".'lastest.log');
+$lastest_log = file_get_contents("../core/logs/lastest_$UUID.log");
 
 $cmd_time_interval = db_query($db, "SELECT `value` FROM config WHERE `UUID` = '$UUID' AND id = 'cmd_time_interval'")['value'];
 $cmd_msg_interval  = db_query($db, "SELECT `value` FROM config WHERE `UUID` = '$UUID' AND id = 'cmd_msg_interval'")['value'];
@@ -91,7 +91,7 @@ $cmd_msg_interval  = db_query($db, "SELECT `value` FROM config WHERE `UUID` = '$
         <h2 class="page-header">Log</h2>
         <div class="row">
           <div class="col-sm-12">
-            <pre id="log" class="log"><?php echo $lastestlog?></pre>
+            <pre id="log" class="log"><?php echo $lastest_log?></pre>
           </div>
         </div>
       </div>
@@ -104,8 +104,8 @@ $cmd_msg_interval  = db_query($db, "SELECT `value` FROM config WHERE `UUID` = '$
     <script src="src/js/socket.io.js"></script>
     <script src="src/js/socket-handler.js"></script>
     <script>
-      const time_interval = intval("<?php echo $cmd_time_interval;?>");
-      const msg_interval = intval("<?php echo $cmd_msg_interval;?>");
+      const time_interval = parseInt("<?php echo $cmd_time_interval;?>");
+      const msg_interval = parseInt("<?php echo $cmd_msg_interval;?>");
 
       $(document).ready(function() {
         // Active the corresponding button in the navbar
