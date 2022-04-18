@@ -3,7 +3,6 @@
 
 # Config File
 config.json
-www/src/port.json
 
 # Test file
 test.*
