@@ -31,3 +31,7 @@ Node module required (package.json provided):
 # Limitation / To Do
 
 - One port per instance is required because of the current way users are handled.
+
+# DISCLAIMER
+
+This software is provided "as is", not warranty it work.
