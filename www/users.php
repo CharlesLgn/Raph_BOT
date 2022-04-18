@@ -2,6 +2,11 @@
 require_once('src/php/header.php');
 require_once('src/php/functions.php');
 
+if($_SESSION['username'] != 'admin'){
+  header('Location: dashboard.php');
+  exit();
+}
+
 // POST
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     if($_POST['action'] == "add" && !empty($_POST['username'])){
