@@ -7,8 +7,8 @@ const twitch = require('./twitch.js');
 var current_config = null;
 
 // Get UUID of instance
-if(UUID == ""){
-    console.error("UUID is not defined.");
+if(UUID == "" || UUID == undefined){
+    console.error("UUID is undefined.");
     process.exit(1);
 }
 
