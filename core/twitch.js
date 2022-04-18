@@ -2,6 +2,7 @@
 const tmi = require("tmi.js");
 const commands = require('./commands.js');
 const static_config = require('../config.json');
+const reaction = require('./reaction.js');
  
 // Variable
 var client = null;
@@ -14,6 +15,7 @@ function init(config_init, socket_init){
 
 	// External lib
 	commands.init(config, socket);
+	reaction.init(config, socket);
 	
 	// TMI config
 	const tmiConfig = {
@@ -69,6 +71,13 @@ function init(config_init, socket_init){
 
 		// Commands
 		result = await commands.run(user, message);
+		if(result){
+			send(result);
+			return;
+		}
+		
+		// Reaction
+		result = await reaction.run(user, message);
 		if(result){
 			send(result);
 			return;
