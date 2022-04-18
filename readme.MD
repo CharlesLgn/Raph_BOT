@@ -5,7 +5,7 @@ Raph_BOT is a multi-user and multi-instances bot
 # Prerequisite
 
 Linux package :
-- apache2
+- apache2 (or any web server)
 - PHP7.0
 - MariaDB / MySQL
 - NodeJS (^v16)
@@ -22,6 +22,7 @@ Node module required (package.json provided):
 - Move "config.json" from the template folder to the root folder (mv ./template/config.json ./config.json)
 - Setup your database config (user, password, database) in the file "config.json"
 - Use raph_bot.sql to configure your database with the required tables
+- Configure your web server so it use the 'www' folder as document root 
 - Make sure the folder 'core/logs' can be written by the web server
 
 # Configure bot
