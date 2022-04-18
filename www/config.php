@@ -5,8 +5,8 @@ require_once('src/php/header.php');
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
   // Edit
   if( $_POST['action'] == "edit" && !empty($_POST['id'])){
-    $id = addslashes(trim($_POST['id']));
-    $value = addslashes(trim($_POST['value']));
+    $id = sanitise_input($db, $_POST['id']);
+    $value = sanitise_input($db, $_POST['value']);
     db_query_no_result($db, "UPDATE `config` SET `value` = '$value' WHERE `id` = '$id' and `UUID` = '$UUID'");
   }
 

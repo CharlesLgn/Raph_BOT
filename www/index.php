@@ -6,8 +6,8 @@ $db = db_connect();
 
 // POST
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    $username = addslashes(trim($_POST['username']));
-    $password = addslashes(trim($_POST['password']));
+    $username = sanitise_input($db, $_POST['username']);
+    $password = sanitise_input($db, $_POST['password']);
     $row = db_query_raw($db, "SELECT `password`, `UUID` FROM `users` WHERE `username` = '$username'");
 
     if(mysqli_num_rows($row)){

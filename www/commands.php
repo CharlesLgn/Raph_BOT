@@ -4,19 +4,19 @@ require_once('src/php/header.php');
 // POST
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
   if($_POST['action'] == "add" && !empty($_POST['command'])){
-    $command = strtolower(addslashes(trim($_POST['command'])));
-    $text = addslashes(trim($_POST['text']));
+    $command = sanitise_input($db, $_POST['command']);
+    $text = sanitise_input($db, $_POST['text']);
     db_query_no_result($db, "INSERT INTO `commands` VALUES (NULL, '$UUID', '$command', '$text', 0)");
   }
 
   if($_POST['action'] == "del" && !empty($_POST['command'])){
-    $command = addslashes(trim($_POST['command']));
+    $command = sanitise_input($db, $_POST['command']);
     db_query_no_result($db, "DELETE FROM `commands` WHERE `UUID` = '$UUID' AND `command` = '$command'");
   }
 
   if($_POST['action'] == "edit" && !empty($_POST['command'])){
-    $command = addslashes(trim($_POST['command']));
-    $text = addslashes(trim($_POST['text']));
+    $command = sanitise_input($db, $_POST['command']);
+    $text = sanitise_input($db, $_POST['text']);
     $auto = isset($_POST['auto']) ? 1 : 0;
     db_query_no_result($db, "UPDATE `commands` SET `text` = '$text', `auto` = '$auto' WHERE `UUID` = '$UUID' AND `command` = '$command'");
   }
