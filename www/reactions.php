@@ -107,8 +107,8 @@ $count = db_query($db, "SELECT COUNT(`key`) as value FROM reactions WHERE `UUID`
                     "<input type='hidden' name='action' value='add'>"+
                     "<label>Trigger</label><input type='text' class='form-control' name='key' placeholder='Trigger' required><br/>"+
                     "<label>Reaction</label><input type='text' class='form-control' name='reaction' placeholder='Reaction' required><br/>"+
-                    "<label>Frequency</label><input type='number' class='form-control' name='frequency' min=0 step=1 max=100 required><br/>"+
-                    "<label>Timeout</label><input type='number' class='form-control' name='timeout' min=0 step=1 required><br/>"+
+                    "<label>Frequency (%)</label><input type='number' class='form-control' name='frequency' min=0 step=1 max=100 required><br/>"+
+                    "<label>Timeout (s)</label><input type='number' class='form-control' name='timeout' min=0 step=1 required><br/>"+
                     "</form>",
             showCancelButton: true,
             showConfirmButton: confirm,
@@ -152,8 +152,8 @@ $count = db_query($db, "SELECT COUNT(`key`) as value FROM reactions WHERE `UUID`
                   "<input type='hidden' name='action' value='edit'>"+
                   "<input type='hidden' name='key' value='" + key + "'>"+
                   "<label>Reaction</label><input class='form-control' type='text' name='value' value=\"" + text + "\">"+
-                  "<label>Frequency</label><input class='form-control' type='number' name='frequency' min=0 step=1 max=100 value=\"" + freq + "\">"+
-                  "<label>Timeout</label><input class='form-control' type='number' name='timeout' min=0 step=1 value=\"" + time + "\">"+
+                  "<label>Frequency (%)</label><input class='form-control' type='number' name='frequency' min=0 step=1 max=100 value=\"" + freq + "\">"+
+                  "<label>Timeout (s)</label><input class='form-control' type='number' name='timeout' min=0 step=1 value=\"" + time + "\">"+
                   "</form>",
             showCancelButton: true,
             focusConfirm: false,
