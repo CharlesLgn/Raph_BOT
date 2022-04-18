@@ -14,6 +14,6 @@
 
 <!-- Unified alert system -->
 <script>
-    $(document).ready(function() {<?php if(!empty($alert_type)) echo "Swal({type: \"$alert_type\", title: \"$alert_title\", text: \"$alert_text\"});"; ?>});
+    $(document).ready(function() {<?php if(!empty($alert_type)) echo "Swal.fire({icon: \"$alert_type\", title: \"$alert_title\", text: \"$alert_text\"});"; ?>});
 </script>
 <!-- /Unified alert system -->
