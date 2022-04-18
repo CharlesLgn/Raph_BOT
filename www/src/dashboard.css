@@ -126,3 +126,7 @@ a:hover{
 label{
   color: #eee;
 }
+
+textarea { 
+  resize: vertical;
+}

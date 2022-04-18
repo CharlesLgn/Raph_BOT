@@ -101,7 +101,7 @@ $count = db_query($db, "SELECT COUNT(`command`) as value FROM commands WHERE `UU
             html:   "<form id='swal-form' method='post'>"+
                     "<input type='hidden' name='action' value='add'>"+
                     "<label>Command</label><input type='text' class='form-control' name='command' placeholder='Command' required><br/>"+
-                    "<label>Answer</label><input type='text' class='form-control' name='text' placeholder='Answer' required><br/>"+
+                    "<label>Text</label><textarea class='form-control' rows='2' name='text'></textarea>"+
                     "</form>",
             showCancelButton: true,
             showConfirmButton: confirm,
@@ -148,7 +148,7 @@ $count = db_query($db, "SELECT COUNT(`command`) as value FROM commands WHERE `UU
             html: "<form id='swal-form' method='post'>"+
                   "<input type='hidden' name='action' value='edit'>"+
                   "<input type='hidden' name='command' value='" + key + "'>"+
-                  "<label>Text</label><input class='form-control' type='text' name='text' value=\"" + value + "\">"+
+                  "<label>Text</label><textarea class='form-control' rows='2' name='text'>"+ value +"</textarea>"+
                   "<label>Auto</label><input class='form-control' type='checkbox' name='auto' " + checkbox + ">"+
                   "</form>",
             showCancelButton: true,
