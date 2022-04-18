@@ -4,7 +4,12 @@ Raph_BOT is a multi-user and multi-instances bot
 
 # Prerequisite
 
-apache2, PHP7.0, MySQL, NodeJS (v16), screen
+Linux package :
+- apache2
+- PHP7.0
+- MariaDB / MySQL
+- NodeJS (^v16)
+- screen
 
 Node module required (package.json provided): 
 - console-stamp@3.0.3
@@ -21,3 +26,7 @@ Node module required (package.json provided):
 
 # Configure bot
 - Log into the dashboard, default user is 'admin' with password '0'
+
+# Limitation / To Do
+
+- One port per intance is require because of the current wait users are handle.
