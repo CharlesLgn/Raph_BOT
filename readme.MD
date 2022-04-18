@@ -29,4 +29,4 @@ Node module required (package.json provided):
 
 # Limitation / To Do
 
-- One port per intance is require because of the current wait users are handle.
+- One port per instance is required because of the current way users are handle.
