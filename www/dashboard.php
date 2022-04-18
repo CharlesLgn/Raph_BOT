@@ -33,7 +33,7 @@ $port = db_query($db, "SELECT `port` FROM `ports` WHERE `UUID` = '$UUID'")['port
         <div class="col-sm-3">
           <!-- Core Connection -->
           <div class="row">
-            <div class="col-sm-3">Core</div>
+            <div class="col-sm-3 align-right">Core</div>
             <div class="col-sm-9">
               <div class="progress">
                 <div class="progress-bar progress-bar-danger" role="progressbar" style="width:100%" id="core-statut">
@@ -45,7 +45,7 @@ $port = db_query($db, "SELECT `port` FROM `ports` WHERE `UUID` = '$UUID'")['port
 
           <!-- Twitch Connection -->
           <div class="row">
-            <div class="col-sm-3">Twitch</div>
+            <div class="col-sm-3 align-right">Twitch</div>
             <div class="col-sm-9">
               <div class="progress">
                 <div class="progress-bar progress-bar-warning" role="progressbar" style="width:100%" id="twitch-statut">
@@ -60,28 +60,32 @@ $port = db_query($db, "SELECT `port` FROM `ports` WHERE `UUID` = '$UUID'")['port
         <div class="col-sm-8 col-sm-offset-1">
           <!-- Auto CMD msg progress -->
           <div class="row">
-            <div class="col-sm-2">Message Trigger</div>
-            <div class="col-sm-1" id="auto-cmd-msg-counter">0</span></div>
-            <div class="col-sm-9">
+            <div class="col-sm-3 align-right">Message Trigger</div>
+            
+            <div class="col-sm-8">
               <div class="progress">
                 <div class="progress-bar progress-bar-info" role="progressbar" style="width:0%" id="auto-cmd-msg-bar">
                   <span id="auto-cmd-msg-text"></span>
                 </div>
               </div> 
             </div>
+
+            <div class="col-sm-1" id="auto-cmd-msg-counter">0</span></div>
           </div>
       
           <!-- Auto CMD time progress -->
           <div class="row">
-            <div class="col-sm-2">Time Trigger</div>
-            <div class="col-sm-1" id="auto-cmd-time-counter">0</span></div>
-            <div class="col-sm-9">
+            <div class="col-sm-3 align-right">Time Trigger</div>
+            
+            <div class="col-sm-8">
               <div class="progress">
                 <div class="progress-bar progress-bar-info" role="progressbar" style="width:0%" id="auto-cmd-time-bar">
                   <span id="auto-cmd-time-text"></span>
                 </div>
               </div> 
             </div>
+
+            <div class="col-sm-1" id="auto-cmd-time-counter">0</span></div>
           </div>
 
 

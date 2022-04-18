@@ -130,3 +130,7 @@ label{
 textarea { 
   resize: vertical;
 }
+
+.align-right{
+  text-align: right;
+}
