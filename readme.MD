@@ -1,4 +1,4 @@
-# Raph_BOT Web
+# Raph_BOT
 
 Prerequisite : apache2, PHP7.0, MySQL, NodeJS (v16), screen
 
