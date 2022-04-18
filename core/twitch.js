@@ -39,7 +39,7 @@ function init(config_init, socket_init){
 		send(config["twitch_connection_message"]);
 		socket.log("[TWITCH] Connected on : " + adress)
 
-		if(config["cmd_time_interval"] > 0){
+		if(parseInt(config["cmd_time_interval"]) > 0){
 			setInterval(async function(){
 				var result = await commands.timeTrigger();
 				if(result){
@@ -62,7 +62,7 @@ function init(config_init, socket_init){
 		if (isSelf) return;
 
 		// Automatic command by number of messages
-		if(config["cmd_msg_interval"] > 0){
+		if(parseInt(config["cmd_msg_interval"]) > 0){
 			result = await commands.msgTrigger();
 			if(result){
 				send(result);

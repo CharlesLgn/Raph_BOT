@@ -9,8 +9,8 @@ var message_counter = 0;
 var total_auto_cmd_time = 0;
 var total_auto_cmd_msg = 0;
 var last_auto_cmd = 0;
-var time_interval = null; //Trigger auto des cmd (en minutes)
-var message_interval = null;  //Trigger auto des cmd (en nb de msg)
+var time_interval = null; //Trigger by time (minutes)
+var message_interval = null;  //Trigger by message (number of messages)
 var UUID = null;
 
 // Function declaration
@@ -18,8 +18,8 @@ function init(config_init, socket_init){
     socket = socket_init;
     config = config_init;
 
-    time_interval = config["cmd_time_interval"];
-    message_interval = config["cmd_msg_interval"];
+    time_interval = parseInt(config["cmd_time_interval"]);
+    message_interval = parseInt(config["cmd_msg_interval"]);
     UUID = config["UUID"];
 }
 
@@ -29,6 +29,7 @@ async function timeTrigger(){
 	if(timer >= time_interval){
 		timer = 0;
 		total_auto_cmd_time++;
+        socket.log("[COMMAND] Autocommand triggered by the timer");
 		return await auto_command();
 	}
 	return false;
@@ -40,6 +41,7 @@ async function msgTrigger(){
 	if(message_counter >= message_interval){
 		message_counter = 0;
 		total_auto_cmd_msg++;
+        socket.log("[COMMAND] Autocommand triggered by number of messages");
 		return await auto_command();
     }
 	return false;
@@ -50,7 +52,7 @@ async function load_auto_command(){
     var result = [];
 
     try {
-        sql.forEach(element => {result.push(element.key);});
+        sql.forEach(element => {result.push(element.command);});
         return result;
     }
     catch (err){
@@ -59,7 +61,6 @@ async function load_auto_command(){
 }
 
 async function auto_command(){
-    ///Boucle des commandes automatiques
     var list = await load_auto_command();
     var index;
 
