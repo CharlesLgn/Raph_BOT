@@ -8,6 +8,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $id = sanitise_input($db, $_POST['id']);
     $value = sanitise_input($db, $_POST['value']);
     db_query_no_result($db, "UPDATE `config` SET `value` = '$value' WHERE `id` = '$id' and `UUID` = '$UUID'");
+
+    $_SESSION["alert"] = ["info", "Restart the bot to apply this change", false];
   }
 
   header('Location: config.php');
@@ -63,7 +65,10 @@ while($row = mysqli_fetch_assoc($data)) {
     </div>
 
     <!-- Footer -->
-    <?php include("src/html/footer.html"); ?>
+    <?php 
+      include("src/html/footer.html"); 
+      require_once("src/php/alert.php");
+    ?>
 
     <script>
       $(document).ready(function() {
