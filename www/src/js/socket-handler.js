@@ -48,51 +48,47 @@ function start_stop(){
   }
 }
 
-$.getJSON("src/port.json", function(JSON){
-  socket = io('http://'+ window.location.hostname + ':' +  JSON['socket_port'] + "/");
-}).done(function(){
 
-  socket.on('connect', function(){
-    document.getElementById('core-statut').className = "progress-bar progress-bar-success";
-    document.getElementById('core-statut').innerHTML = "Connected";
+socket = io('http://'+ window.location.hostname + ':' +  port + "/");
 
-    // Buttons
-    document.getElementById("btn-start-stop").className = "btn btn-danger";
-    document.getElementById("ico-start-stop").className = "glyphicon glyphicon-stop";
-    document.getElementById("btn-start-stop").disabled = false;
 
-    // Toggle
-    core_state = true;
-  })
+socket.on('connect', function(){
+  document.getElementById('core-statut').className = "progress-bar progress-bar-success";
+  document.getElementById('core-statut').innerHTML = "Connected";
 
-  socket.on('disconnect', function(){
-    document.getElementById('core-statut').className = "progress-bar progress-bar-danger";
-    document.getElementById('core-statut').innerHTML = "Disconnected";
+  // Buttons
+  document.getElementById("btn-start-stop").className = "btn btn-danger";
+  document.getElementById("ico-start-stop").className = "glyphicon glyphicon-stop";
+  document.getElementById("btn-start-stop").disabled = false;
 
-    document.getElementById('twitch-statut').className = "progress-bar progress-bar-warning";
-    document.getElementById('twitch-statut').innerHTML = "Waiting for the core";
+  // Toggle
+  core_state = true;
+})
 
-    // Buttons
-    document.getElementById("btn-start-stop").className = "btn btn-success";
-    document.getElementById("ico-start-stop").className = "glyphicon glyphicon-play";
-    core_state = false;
-  })
+socket.on('disconnect', function(){
+  document.getElementById('core-statut').className = "progress-bar progress-bar-danger";
+  document.getElementById('core-statut').innerHTML = "Disconnected";
 
-  // Update
-  socket.on('update', function(json){
-    data = JSON.parse(json);
+  document.getElementById('twitch-statut').className = "progress-bar progress-bar-warning";
+  document.getElementById('twitch-statut').innerHTML = "Waiting for the core";
 
-    twitch_state(data['twitch']);
-    trigger_time(data['trigger_time']);
-    trigger_msg(data['trigger_msg']);
-  })
+  // Buttons
+  document.getElementById("btn-start-stop").className = "btn btn-success";
+  document.getElementById("ico-start-stop").className = "glyphicon glyphicon-play";
+  core_state = false;
+})
 
-  // Log
-  socket.on('log', function(msg){
-    document.getElementById("log").innerText += msg;
-  })
+// Update
+socket.on('update', function(json){
+  data = JSON.parse(json);
 
-}).fail(function(){
-  console.log("Unable to load port file.");
-});
+  twitch_state(data['twitch']);
+  trigger_time(data['trigger_time']);
+  trigger_msg(data['trigger_msg']);
+})
+
+// Log
+socket.on('log', function(msg){
+  document.getElementById("log").innerText += msg;
+})
 

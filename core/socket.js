@@ -1,4 +1,3 @@
-const port = require('../www/src/port.json')['socket_port'];
 const http = require('http');
 const fs = require('fs');
 
@@ -7,7 +6,6 @@ var stream_log = null;
 // Socket server
 var server = http.createServer();
 var io = require('socket.io').listen(server);
-server.listen(port);
 
 // Variables
 var web_client = null;
@@ -24,11 +22,13 @@ var GUI = {
 
 function init(config_init){
     config = config_init;
+    server.listen(config["port"]);
     
-
+    // Clear log file
     var path_to_log = __dirname + "/logs/lastest_" + config["UUID"] + ".log";
     fs.truncate(path_to_log, 0, function(){console.log('Log file cleared.')});
     stream_log = fs.createWriteStream(path_to_log, {flags:'a'});
+
     log("[CORE] Started (" + config["version"] + ") with UUID : '" + config["UUID"] + "'");
 }
 

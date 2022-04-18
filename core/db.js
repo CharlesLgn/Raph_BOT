@@ -24,19 +24,31 @@ function query(sql){
 }
 
 async function load_config(UUID){
-    var sql = await query("SELECT * FROM config WHERE `UUID` = '" + UUID + "'");
     var result = [];
 
+    // General config
+    var sql = await query("SELECT * FROM `config` WHERE `UUID` = '" + UUID + "'");
     try {
         sql.forEach(element => {
             result[element.id] = element.value;
         });
-        return result;
     }
     catch (err){
         console.error(err);
         process.exit(0);
     }
+
+    // Socket port
+    var sql = await query("SELECT `port` FROM `ports` WHERE `UUID` = '" + UUID + "'");
+    try {
+        result["port"] = sql[0].port;
+    }
+    catch (err){
+        console.error(err);
+        process.exit(0);
+    }
+
+    return result;
 }
 
 module.exports = {query, load_config}
