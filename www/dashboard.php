@@ -3,6 +3,9 @@ require_once('src/php/header.php');
 
 $lastestlog = shell_exec('cat '.dirname(__FILE__)."/core/".'lastest.log');
 
+$cmd_time_interval = db_query($db, "SELECT `value` FROM config WHERE `UUID` = '$UUID' AND id = 'cmd_time_interval'")['value'];
+$cmd_msg_interval  = db_query($db, "SELECT `value` FROM config WHERE `UUID` = '$UUID' AND id = 'cmd_msg_interval'")['value'];
+
 ?>
 
 <!DOCTYPE html>
@@ -79,30 +82,20 @@ $lastestlog = shell_exec('cat '.dirname(__FILE__)."/core/".'lastest.log');
               </div> 
             </div>
           </div>
-      
-          <!-- Shout progress -->
-          <div class="row">
-            <div class="col-sm-3">Shout Trigger</div>
-            <div class="col-sm-9">
-              <div class="progress">
-                <div class="progress-bar progress-bar-warning" role="progressbar" style="width:0%" id="shout-bar">
-                  <span id="shout-text"></span>
-                </div>
-              </div> 
-            </div>
+
+
+        </div>
+    
+      <!-- Log -->
+      <div class="col-sm-12">
+        <h2 class="page-header">Log</h2>
+        <div class="row">
+          <div class="col-sm-12">
+            <pre id="log" class="log"><?php echo $lastestlog?></pre>
           </div>
         </div>
       </div>
 
-     
-    
-      <!-- Commands Section -->
-      <h2 class="sub-header">Log</h2>
-      <div class="row">
-        <div class="col-sm-12">
-          <pre id="log" class="log"><?php echo $lastestlog?></pre>
-        </div>
-      </div>
     </div>
 
     <!-- Footer -->
@@ -111,9 +104,20 @@ $lastestlog = shell_exec('cat '.dirname(__FILE__)."/core/".'lastest.log');
     <script src="src/js/socket.io.js"></script>
     <script src="src/js/socket-handler.js"></script>
     <script>
+      const time_interval = intval("<?php echo $cmd_time_interval;?>");
+      const msg_interval = intval("<?php echo $cmd_msg_interval;?>");
+
       $(document).ready(function() {
         // Active the corresponding button in the navbar
         document.getElementById("index").className="active"; 
+
+        if(time_interval == 0){
+
+        }
+
+        if(msg_interval == 0){
+
+        }
       });
     </script>
 

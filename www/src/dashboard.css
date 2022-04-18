@@ -118,6 +118,9 @@ a:hover{
 .log{
   color: #EFEFF1;
   background-color: #2f3542;
+  display:block;
+  height: 50vh;
+  overflow:auto;
 }
 
 label{
