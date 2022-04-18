@@ -117,12 +117,19 @@ $port = db_query($db, "SELECT `port` FROM `ports` WHERE `UUID` = '$UUID'")['port
         document.getElementById("index").className="active"; 
 
         if(time_interval == 0){
-
+          document.getElementById('auto-cmd-time-bar').style.width = "100%";
+          document.getElementById('auto-cmd-time-bar').className = "progress-bar progress-bar-danger progress-bar-striped";
+          document.getElementById('auto-cmd-time-text').innerHTML = "Disabled";
+          document.getElementById('auto-cmd-time-counter').innerHTML = "";
         }
 
         if(msg_interval == 0){
-
+          document.getElementById('auto-cmd-msg-bar').style.width = "100%";
+          document.getElementById('auto-cmd-msg-bar').className = "progress-bar progress-bar-danger progress-bar-striped";
+          document.getElementById('auto-cmd-msg-text').innerHTML = "Disabled";
+          document.getElementById('auto-cmd-msg-counter').innerHTML = "";
         }
+
       });
     </script>
 
