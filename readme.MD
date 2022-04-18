@@ -10,7 +10,7 @@ Node module required (package.json provided):
 
 # First time setup (Debian based distro)
 
-- Move "config.json" from the template folder to the src folder (mv ./template/config.json ./src/config.json)
+- Move "config.json" from the template folder to the root folder (mv ./template/config.json ./config.json)
 - Setup your database config (user, password, database) in the file "config.json"
 - Use raph_bot.sql to configure your database with the required tables
 - Make sure the folder 'core/logs' can be written by the web server
