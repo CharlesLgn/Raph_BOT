@@ -101,7 +101,7 @@ $cmd_msg_interval  = db_query($db, "SELECT `value` FROM config WHERE `UUID` = '$
     <!-- Footer -->
     <?php include("src/html/footer.html"); ?>
 
-    <script src="src/js/socket.io.js"></script>
+    <script src="src/js/socket.io-2.1.1.js"></script>
     <script src="src/js/socket-handler.js"></script>
     <script>
       const time_interval = parseInt("<?php echo $cmd_time_interval;?>");
