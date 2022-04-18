@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : lun. 18 avr. 2022 à 10:49
+-- Généré le : lun. 18 avr. 2022 à 14:09
 -- Version du serveur :  10.5.12-MariaDB-0+deb11u1
 -- Version de PHP : 7.4.25
 
@@ -64,6 +64,17 @@ CREATE TABLE `config` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `ports`
+--
+
+CREATE TABLE `ports` (
+  `UUID` varchar(36) NOT NULL,
+  `port` smallint(6) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `users`
 --
 
@@ -94,6 +105,13 @@ ALTER TABLE `commands`
 --
 ALTER TABLE `config`
   ADD PRIMARY KEY (`#`);
+
+--
+-- Index pour la table `ports`
+--
+ALTER TABLE `ports`
+  ADD PRIMARY KEY (`UUID`),
+  ADD UNIQUE KEY `port` (`port`);
 
 --
 -- Index pour la table `users`
