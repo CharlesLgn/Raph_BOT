@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : lun. 18 avr. 2022 à 14:09
+-- Généré le : lun. 18 avr. 2022 à 14:50
 -- Version du serveur :  10.5.12-MariaDB-0+deb11u1
 -- Version de PHP : 7.4.25
 
@@ -141,6 +141,12 @@ ALTER TABLE `commands`
 --
 ALTER TABLE `config`
   MODIFY `#` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `ports`
+--
+ALTER TABLE `ports`
+  MODIFY `port` smallint(6) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
