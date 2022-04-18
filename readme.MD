@@ -2,6 +2,8 @@
 
 Raph_BOT is a multi-user and multi-instances bot
 
+![Raph_BOT](./screenshot.png)
+
 # Prerequisite
 
 Linux package :
