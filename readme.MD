@@ -22,7 +22,7 @@ Node module required (package.json provided):
 - Move "config.json" from the template folder to the root folder (mv ./template/config.json ./config.json)
 - Setup your database config (user, password, database) in the file "config.json"
 - Use raph_bot.sql to configure your database with the required tables
-- Configure your web server so it use the 'www' folder as document root 
+- Configure your web server so it uses the 'www' folder as document root 
 - Make sure the folder 'core/logs' can be written by the web server
 
 # Configure bot
@@ -30,4 +30,4 @@ Node module required (package.json provided):
 
 # Limitation / To Do
 
-- One port per instance is required because of the current way users are handle.
+- One port per instance is required because of the current way users are handled.
