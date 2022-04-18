@@ -106,7 +106,7 @@ $count = db_query($db, "SELECT COUNT(`key`) as value FROM reactions WHERE `UUID`
             html:   "<form id='swal-form' method='post'>"+
                     "<input type='hidden' name='action' value='add'>"+
                     "<label>Trigger</label><input type='text' class='form-control' name='key' placeholder='Trigger' required><br/>"+
-                    "<label>Reaction</label><input type='text' class='form-control' name='reaction' placeholder='Reaction' required><br/>"+
+                    "<label>Reaction</label><textarea class='form-control' rows='2' name='reaction'></textarea><br/>"+
                     "<label>Frequency (%)</label><input type='number' class='form-control' name='frequency' min=0 step=1 max=100 required><br/>"+
                     "<label>Timeout (s)</label><input type='number' class='form-control' name='timeout' min=0 step=1 required><br/>"+
                     "</form>",
@@ -151,9 +151,9 @@ $count = db_query($db, "SELECT COUNT(`key`) as value FROM reactions WHERE `UUID`
             html: "<form id='swal-form' method='post'>"+
                   "<input type='hidden' name='action' value='edit'>"+
                   "<input type='hidden' name='key' value='" + key + "'>"+
-                  "<label>Reaction</label><input class='form-control' type='text' name='value' value=\"" + text + "\">"+
-                  "<label>Frequency (%)</label><input class='form-control' type='number' name='frequency' min=0 step=1 max=100 value=\"" + freq + "\">"+
-                  "<label>Timeout (s)</label><input class='form-control' type='number' name='timeout' min=0 step=1 value=\"" + time + "\">"+
+                  "<label>Reaction</label><textarea class='form-control' rows='2' name='value'>" + text + "</textarea><br/>"+
+                  "<label>Frequency (%)</label><input class='form-control' type='number' name='frequency' min=0 step=1 max=100 value=\"" + freq + "\"><br/>"+
+                  "<label>Timeout (s)</label><input class='form-control' type='number' name='timeout' min=0 step=1 value=\"" + time + "\"><br/>"+
                   "</form>",
             showCancelButton: true,
             focusConfirm: false,
