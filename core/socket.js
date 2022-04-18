@@ -1,9 +1,13 @@
-var socket = require('socket.io')
-var fs = require('fs');
+const port = require('../www/src/port.json')['socket_port'];
+const http = require('http');
+const fs = require('fs');
+
 var stream_log = null;
 
 // Socket server
-const io = new socket.Server(require('../www/src/port.json')['socket_port']);
+var server = http.createServer();
+var io = require('socket.io').listen(server);
+server.listen(port);
 
 // Variables
 var web_client = null;
@@ -20,12 +24,16 @@ var GUI = {
 
 function init(config_init){
     config = config_init;
-    stream_log = fs.createWriteStream(__dirname + "/logs/lastest_" + config["UUID"] + ".log", {flags:'a'});
+    
+
+    var path_to_log = __dirname + "/logs/lastest_" + config["UUID"] + ".log";
+    fs.truncate(path_to_log, 0, function(){console.log('Log file cleared.')});
+    stream_log = fs.createWriteStream(path_to_log, {flags:'a'});
     log("[CORE] Started (" + config["version"] + ") with UUID : '" + config["UUID"] + "'");
 }
 
 // When web_client is connected, update all info
-io.sockets.on('connection', function (socket) {
+io.sockets.on('connection', (socket) => {
     web_client = socket;
     web_client_connected = true;
 
@@ -87,6 +95,5 @@ function play_audio(file, volume){
         web_client.emit('play-audio', JSON.stringify(data));
     }
 }
-
 
 module.exports = {init, twitch_state, shout_update, time_trigger_update, msg_trigger_update, log, play_audio}

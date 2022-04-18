@@ -12,11 +12,6 @@ function twitch_state(state){
   }
 }
 
-function shout(data){
-  document.getElementById('shout-bar').style.width = (data['current'] / data['max']) * 100 + "%";
-  document.getElementById('shout-text').innerHTML = data['current'] + " / " + data['max'];
-}
-
 function trigger_time(data){
   document.getElementById('auto-cmd-time-bar').style.width = (data['current'] / data['max']) * 100 + "%";
   document.getElementById('auto-cmd-time-text').innerHTML = data['current'] + " / " + data['max'];
@@ -31,7 +26,7 @@ function trigger_msg(data){
 
 function start_stop(){
   if(core_state){
-    swal({
+    swal.fire({
       title: 'Stop',
       text: "Are you sure you want to stop the bot ?",
       type: 'warning',
@@ -54,9 +49,9 @@ function start_stop(){
 }
 
 $.getJSON("src/port.json", function(JSON){
-  socket = io.connect('http://'+ window.location.hostname + ':' +  JSON['socket_port']);
+  socket = io('http://'+ window.location.hostname + ':' +  JSON['socket_port'] + "/");
 }).done(function(){
-  console.log("JSON OK");
+
   socket.on('connect', function(){
     document.getElementById('core-statut').className = "progress-bar progress-bar-success";
     document.getElementById('core-statut').innerHTML = "Connected";
@@ -88,7 +83,6 @@ $.getJSON("src/port.json", function(JSON){
     data = JSON.parse(json);
 
     twitch_state(data['twitch']);
-    shout(data['shout']);
     trigger_time(data['trigger_time']);
     trigger_msg(data['trigger_msg']);
   })
@@ -99,6 +93,6 @@ $.getJSON("src/port.json", function(JSON){
   })
 
 }).fail(function(){
-  console.log("Unable to load config file.");
+  console.log("Unable to load port file.");
 });
 
