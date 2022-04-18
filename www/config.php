@@ -19,14 +19,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 $data = db_query_raw($db, "SELECT * FROM config WHERE `UUID` = '$UUID' ORDER BY id");
 $list = "";
 while($row = mysqli_fetch_assoc($data)) {
-    // Hidden value
-    if($row['hidden']){
-      $value = "************";
-    }
-    else{
-      $value = $row["value"];
-    }
-
     $list .= "
     <tr>
         <td>".$row["id"]."</td>
