@@ -22,7 +22,7 @@ while($row = mysqli_fetch_assoc($data)) {
     $list .= "
     <tr>
         <td>".$row["id"]."</td>
-        <td id='value_".$row["id"]."'>$value</td>
+        <td id='value_".$row["id"]."'>".$row["value"]."</td>
         <td><button onClick='edit_entry(\"".$row["id"]."\", \"".$row["value"]."\")' class='btn btn-warning' type='button'><i class='glyphicon glyphicon-pencil'></i></button></td>
     </tr>";
 }
