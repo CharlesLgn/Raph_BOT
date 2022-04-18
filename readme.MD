@@ -1,6 +1,10 @@
 # Raph_BOT
 
-Prerequisite : apache2, PHP7.0, MySQL, NodeJS (v16), screen
+Raph_BOT is a multi-user and multi-instances bot
+
+# Prerequisite
+
+apache2, PHP7.0, MySQL, NodeJS (v16), screen
 
 Node module required (package.json provided): 
 - console-stamp@3.0.3
