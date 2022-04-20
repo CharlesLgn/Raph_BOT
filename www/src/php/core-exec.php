@@ -9,7 +9,7 @@ if(isset($_POST) && $_POST['action'] == "start"){
 
     $command = "node $core_directory/core.js $UUID > $core_directory/logs/debug_$UUID.log 2>&1";
 
-    shell_exec("screen -dmS Raph_BOT-$UUID bash -c '$command'");
+    echo shell_exec("screen -dmS Raph_BOT-$UUID bash -c '$command'");
 }
     
     
