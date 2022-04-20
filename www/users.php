@@ -3,8 +3,8 @@ require_once('src/php/header.php');
 require_once('src/php/functions.php');
 
 if($_SESSION['username'] != 'admin'){
-  header('Location: dashboard.php');
-  exit();
+    header('Location: dashboard.php');
+    exit();
 }
 
 // POST
@@ -39,25 +39,43 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 $data = db_query_raw($db, "SELECT * FROM `users` ORDER BY username ASC");
 $list = "";
 while($row = mysqli_fetch_assoc($data)) {
+    $res = shell_exec("screen -S Raph_BOT-".$row['UUID']." -Q select . ; echo $?");
+    $res = intval(substr($res, strlen($res) - 2, 1));
+
+    if($res){ // 1 is not active
+        $text = "Offline";
+        $color = "danger";
+    }
+    else{
+        $text = "Online";
+        $color = "success";
+    }
+
     $list .= "
     <tr>
         <td>".$row["username"]."</td>
         <td>".$row["UUID"]."</td>
+        <td>
+            <div class='progress'>
+                <div class='progress-bar progress-bar-$color' role='progressbar' style='width:100%'>
+                <span>$text</span>
+                </div>
+            </div> 
+        </td>
         <td></td>
     </tr>";
 }
-
 
 ?>
 
 <!DOCTYPE html>
 <html>
-  <head>
+    <head>
       <title>Configuration - Raph_BOT</title>
       <?php include("src/html/header.html"); ?>
-  </head>
+    </head>
 
-  <body>
+    <body>
     <!-- TOP Navbar -->
     <?php include("src/php/navbar.php"); ?>
 
@@ -66,23 +84,24 @@ while($row = mysqli_fetch_assoc($data)) {
 
     <!-- Main area -->
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-      <h1 class="page-header">Users
-        <div class='pull-right'>
-          <button type="button" class="btn btn-success" onclick='add_entry()'><i class="glyphicon glyphicon-plus"></i></button>
-        </div>
-      </h1>
+        <h1 class="page-header">Users
+            <div class='pull-right'>
+            <button type="button" class="btn btn-success" onclick='add_entry()'><i class="glyphicon glyphicon-plus"></i></button>
+            </div>
+        </h1>
 
-      <table class="table table-hover table-condensed">
-          <thead>
-              <tr>
-                  <th class="col-xs-2">Username</th>
-                  <th class="col-xs-7">UUID</th>
-                  <th></th>
-              </tr>
-            </thead>
-          <tbody>
-            <?php echo $list; ?>
-          </tbody>
+        <table class="table table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th class="col-xs-2">Username</th>
+                    <th class="col-xs-4">UUID</th>
+                    <th class="col-xs-2">Status</th>
+                    <th></th>
+                </tr>
+                </thead>
+            <tbody>
+                <?php echo $list; ?>
+            </tbody>
         </table>
     </div>
 
@@ -90,30 +109,30 @@ while($row = mysqli_fetch_assoc($data)) {
     <?php include("src/html/footer.html"); ?>
 
     <script>
-      $(document).ready(function() {
-        // Active the corresponding button in the navbar
-        document.getElementById("users").className="active"; 
-      });
-
-      function add_entry(){
-        Swal.fire({
-            title: "Add user",
-            html:   "<form id='swal-form' method='post'>"+
-                    "<input type='hidden' name='action' value='add'>"+
-                    "<label>Username</label><input type='text' class='form-control' name='username' required><br/>"+
-                    "</form>",
-            showCancelButton: true,
-            showConfirmButton: confirm,
-            focusConfirm: false,
-            allowOutsideClick: false,
-            width: "25%",
-            confirmButtonText: 'Add',
-            cancelButtonText: 'Cancel'
-        }).then((result) =>{
-            if(result.value)
-                document.getElementById('swal-form').submit();
+        $(document).ready(function() {
+            // Active the corresponding button in the navbar
+            document.getElementById("users").className="active"; 
         });
-      }
+
+        function add_entry(){
+            Swal.fire({
+                title: "Add user",
+                html:   "<form id='swal-form' method='post'>"+
+                        "<input type='hidden' name='action' value='add'>"+
+                        "<label>Username</label><input type='text' class='form-control' name='username' required><br/>"+
+                        "</form>",
+                showCancelButton: true,
+                showConfirmButton: confirm,
+                focusConfirm: false,
+                allowOutsideClick: false,
+                width: "25%",
+                confirmButtonText: 'Add',
+                cancelButtonText: 'Cancel'
+            }).then((result) =>{
+                if(result.value)
+                    document.getElementById('swal-form').submit();
+            });
+        }
     </script>
 
 </body>
