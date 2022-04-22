@@ -1,4 +1,4 @@
-const version = "v6.1.1";
+const version = "v6.2.0";
 const UUID = process.argv.slice(2)[0];
 const db = require('./db.js');
 const socket = require('./socket.js');

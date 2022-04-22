@@ -3,6 +3,7 @@ const tmi = require("tmi.js");
 const commands = require('./commands.js');
 const static_config = require('../config.json');
 const reaction = require('./reaction.js');
+const shout = require('./shout.js');
  
 // Variable
 var client = null;
@@ -16,6 +17,7 @@ function init(config_init, socket_init){
 	// External lib
 	commands.init(config, socket);
 	reaction.init(config, socket);
+	shout.init(config, socket);
 	
 	// TMI config
 	const tmiConfig = {
@@ -78,6 +80,13 @@ function init(config_init, socket_init){
 		
 		// Reaction
 		result = await reaction.run(user, message);
+		if(result){
+			send(result);
+			return;
+		}
+
+        // Shout
+        result = await shout.run(user, message);
 		if(result){
 			send(result);
 			return;
