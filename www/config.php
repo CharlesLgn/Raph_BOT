@@ -25,7 +25,7 @@ while($row = mysqli_fetch_assoc($data)) {
     <tr>
         <td>".$row["id"]."</td>
         <td id='value_".$row["id"]."'>".$row["value"]."</td>
-        <td><button onClick='edit_entry(\"".$row["id"]."\", \"".$row["value"]."\")' class='btn btn-warning pull-right' type='button'><i class='glyphicon glyphicon-pencil'></i></button></td>
+        <td><button onClick='edit_entry(\"".$row["id"]."\")' class='btn btn-warning pull-right' type='button'><i class='glyphicon glyphicon-pencil'></i></button></td>
     </tr>";
 }
 
@@ -76,7 +76,9 @@ while($row = mysqli_fetch_assoc($data)) {
         document.getElementById("core").className="active"; 
       });
 
-      function edit_entry(key, value){
+      function edit_entry(key){
+        value = document.getElementById("value_" + key).innerText;
+
         Swal.fire({
             title: 'Editing : "' + key + '"',
             type: 'info',
