@@ -17,7 +17,7 @@ function fix_entry($user_UUID, $table, $column, $key){
 
     if(!$presence){
         echo "\t Attempt to repair ... \n";
-        db_query_no_result($db, "INSERT INTO `$table` (`#`, `UUID`, `$column`) VALUES (NULL, '$user_UUID', '$key')");
+        db_query_no_result($db, "INSERT INTO `$table` (`UUID`, `$column`) VALUES ('$user_UUID', '$key')");
         echo "\t Verification of the repair ... </br>";
         $repaired = mysqli_num_rows(db_query_raw($db, $SQL));
         if($repaired)
