@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : lun. 18 avr. 2022 à 17:02
+-- Généré le : ven. 22 avr. 2022 à 23:14
 -- Version du serveur :  10.5.12-MariaDB-0+deb11u1
 -- Version de PHP : 7.4.25
 
@@ -90,6 +90,19 @@ CREATE TABLE `reactions` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `shout`
+--
+
+CREATE TABLE `shout` (
+  `#` int(11) NOT NULL,
+  `UUID` varchar(36) NOT NULL,
+  `original` text NOT NULL,
+  `replacement` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `users`
 --
 
@@ -135,6 +148,12 @@ ALTER TABLE `reactions`
   ADD PRIMARY KEY (`#`);
 
 --
+-- Index pour la table `shout`
+--
+ALTER TABLE `shout`
+  ADD PRIMARY KEY (`#`);
+
+--
 -- Index pour la table `users`
 --
 ALTER TABLE `users`
@@ -173,6 +192,12 @@ ALTER TABLE `ports`
 -- AUTO_INCREMENT pour la table `reactions`
 --
 ALTER TABLE `reactions`
+  MODIFY `#` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `shout`
+--
+ALTER TABLE `shout`
   MODIFY `#` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
