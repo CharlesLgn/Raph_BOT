@@ -30,7 +30,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 
 $HTML = "";
-$result = db_query_raw($db, "SELECT * FROM shout ORDER BY shout.original ASC");
+$result = db_query_raw($db, "SELECT * FROM shout WHERE `UUID` = '$UUID' ORDER BY shout.original ASC");
 while($row = mysqli_fetch_assoc($result)) {
     $HTML .= "
     <tr>
@@ -46,7 +46,7 @@ while($row = mysqli_fetch_assoc($result)) {
 }
 
 // Count
-$count = db_query($db, "SELECT COUNT(`original`) as value FROM shout")['value'];
+$count = db_query($db, "SELECT COUNT(`original`) as value FROM shout WHERE `UUID` = '$UUID'")['value'];
 
 ?>
 
