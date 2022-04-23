@@ -32,6 +32,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 $HTML = "";
 $result = db_query_raw($db, "SELECT * FROM shout WHERE `UUID` = '$UUID' ORDER BY shout.original ASC");
 while($row = mysqli_fetch_assoc($result)) {
+    if($row['original'][0] == "#")
+        $delete = "";
+    else
+        $delete = "<button type='button' class='btn btn-danger' onclick='del_entry(\"".$row['original']."\")'><i class='glyphicon glyphicon-remove'></i></button>";
+    
     $HTML .= "
     <tr>
         <td>".$row["original"]."</td>
@@ -39,7 +44,7 @@ while($row = mysqli_fetch_assoc($result)) {
         <td>
           <span class='pull-right'>
             <button onClick='edit_entry(\"".$row["original"]."\")' class='btn btn-warning' type='button'><i class='glyphicon glyphicon-pencil'></i></button>
-            <button type='button' class='btn btn-danger' onclick='del_entry(\"".$row['original']."\")'><i class='glyphicon glyphicon-remove'></i></button>
+            $delete
           </span>
         </td>
     </tr>";
