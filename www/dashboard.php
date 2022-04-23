@@ -88,6 +88,17 @@ $port = db_query($db, "SELECT `port` FROM `ports` WHERE `UUID` = '$UUID'")['port
             <div class="col-sm-1" id="auto-cmd-time-counter">0</span></div>
           </div>
 
+          <!-- Shout progress -->
+          <div class="row">
+            <div class="col-sm-3 align-right">Shout Trigger</div>
+            <div class="col-sm-8">
+              <div class="progress">
+                <div class="progress-bar progress-bar-warning" role="progressbar" style="width:0%" id="shout-bar">
+                  <span id="shout-text"></span>
+                </div>
+              </div> 
+            </div>
+          </div>
 
         </div>
     

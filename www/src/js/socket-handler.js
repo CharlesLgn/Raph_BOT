@@ -24,6 +24,11 @@ function trigger_msg(data){
   document.getElementById('auto-cmd-msg-counter').innerHTML = data['nb'];
 }
 
+function shout(data){
+    document.getElementById('shout-bar').style.width = (data['current'] / data['max']) * 100 + "%";
+    document.getElementById('shout-text').innerHTML = data['current'] + " / " + data['max'];
+}
+
 function start_stop(){
   if(core_state){
     swal.fire({
@@ -85,6 +90,7 @@ socket.on('update', function(json){
   twitch_state(data['twitch']);
   trigger_time(data['trigger_time']);
   trigger_msg(data['trigger_msg']);
+  shout(data['shout']);
 })
 
 // Log
