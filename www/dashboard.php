@@ -5,6 +5,7 @@ $lastest_log = file_get_contents("../core/logs/lastest_$UUID.log");
 
 $cmd_time_interval = db_query($db, "SELECT `value` FROM `config` WHERE `UUID` = '$UUID' AND id = 'cmd_time_interval'")['value'];
 $cmd_msg_interval  = db_query($db, "SELECT `value` FROM `config` WHERE `UUID` = '$UUID' AND id = 'cmd_msg_interval'")['value'];
+$shout_interval  = db_query($db, "SELECT `value` FROM `config` WHERE `UUID` = '$UUID' AND id = 'shout_interval'")['value'];
 $port = db_query($db, "SELECT `port` FROM `ports` WHERE `UUID` = '$UUID'")['port'];
 
 ?>
@@ -70,7 +71,7 @@ $port = db_query($db, "SELECT `port` FROM `ports` WHERE `UUID` = '$UUID'")['port
               </div> 
             </div>
 
-            <div class="col-sm-1" id="auto-cmd-msg-counter">0</span></div>
+            <div class="col-sm-1" id="auto-cmd-msg-counter"></span></div>
           </div>
       
           <!-- Auto CMD time progress -->
@@ -85,7 +86,7 @@ $port = db_query($db, "SELECT `port` FROM `ports` WHERE `UUID` = '$UUID'")['port
               </div> 
             </div>
 
-            <div class="col-sm-1" id="auto-cmd-time-counter">0</span></div>
+            <div class="col-sm-1" id="auto-cmd-time-counter"></span></div>
           </div>
 
           <!-- Shout progress -->
@@ -120,6 +121,7 @@ $port = db_query($db, "SELECT `port` FROM `ports` WHERE `UUID` = '$UUID'")['port
     <script>      
       const time_interval = parseInt("<?php echo $cmd_time_interval;?>");
       const msg_interval = parseInt("<?php echo $cmd_msg_interval;?>");
+      const shout_interval = parseInt("<?php echo $shout_interval;?>");
       const port = parseInt("<?php echo $port;?>");
     </script>
 
@@ -132,17 +134,38 @@ $port = db_query($db, "SELECT `port` FROM `ports` WHERE `UUID` = '$UUID'")['port
         document.getElementById("index").className="active"; 
 
         if(time_interval == 0){
-          document.getElementById('auto-cmd-time-bar').style.width = "100%";
-          document.getElementById('auto-cmd-time-bar').className = "progress-bar progress-bar-danger progress-bar-striped";
-          document.getElementById('auto-cmd-time-text').innerHTML = "Disabled";
-          document.getElementById('auto-cmd-time-counter').innerHTML = "";
+            document.getElementById('auto-cmd-time-bar').style.width = "100%";
+            document.getElementById('auto-cmd-time-bar').className = "progress-bar progress-bar-danger progress-bar-striped";
+            document.getElementById('auto-cmd-time-text').innerHTML = "Disabled";
+        }
+        else {
+            document.getElementById('auto-cmd-time-bar').style.width = "100%";
+            document.getElementById('auto-cmd-time-bar').className = "progress-bar progress-bar-success progress-bar-striped";
+            document.getElementById('auto-cmd-time-text').innerHTML = "Enabled (" + time_interval + ")";
+            document.getElementById('auto-cmd-time-counter').innerHTML = "0";
         }
 
         if(msg_interval == 0){
-          document.getElementById('auto-cmd-msg-bar').style.width = "100%";
-          document.getElementById('auto-cmd-msg-bar').className = "progress-bar progress-bar-danger progress-bar-striped";
-          document.getElementById('auto-cmd-msg-text').innerHTML = "Disabled";
-          document.getElementById('auto-cmd-msg-counter').innerHTML = "";
+            document.getElementById('auto-cmd-msg-bar').style.width = "100%";
+            document.getElementById('auto-cmd-msg-bar').className = "progress-bar progress-bar-danger progress-bar-striped";
+            document.getElementById('auto-cmd-msg-text').innerHTML = "Disabled";
+        }
+        else {
+            document.getElementById('auto-cmd-msg-bar').style.width = "100%";
+            document.getElementById('auto-cmd-msg-bar').className = "progress-bar progress-bar-success progress-bar-striped";
+            document.getElementById('auto-cmd-msg-text').innerHTML = "Enabled (" + msg_interval + ")";
+            document.getElementById('auto-cmd-msg-counter').innerHTML = "0";
+        }
+
+        if(shout_interval == 0){
+            document.getElementById('shout-bar').style.width = "100%";
+            document.getElementById('shout-bar').className = "progress-bar progress-bar-danger progress-bar-striped";
+            document.getElementById('shout-text').innerHTML = "Disabled";
+        }
+        else {
+            document.getElementById('shout-bar').style.width = "100%";
+            document.getElementById('shout-bar').className = "progress-bar progress-bar-success progress-bar-striped";
+            document.getElementById('shout-text').innerHTML = "Enabled (" + shout_interval + ")";
         }
 
       });
