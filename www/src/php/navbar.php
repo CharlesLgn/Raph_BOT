@@ -2,9 +2,10 @@
 
 $admin = "";
 
-if($_SESSION['username'] == "admin")
+if($_SESSION['username'] == "admin"){
     $admin .= "<li id='update'><a href='update.php'><span class='glyphicon glyphicon-check'></span> Update</a></li>";
     $admin .= "<li id='users'><a href='users.php'><span class='glyphicon glyphicon-cog'></span> Users</a></li>";
+}
 
 ?>
 
