@@ -123,6 +123,14 @@ a:hover{
   overflow:auto;
 }
 
+.log-update{
+    color: #EFEFF1;
+    background-color: #2f3542;
+    display:block;
+    height: 80vh;
+    overflow:auto;
+  }
+
 label{
   color: #eee;
 }

@@ -8,55 +8,103 @@ if($_SESSION['username'] != 'admin'){
 
 function fix_entry($user_UUID, $table, $column, $key){ 
     global $db;
+    $result = "";
 
     $SQL = "SELECT * FROM `$table` WHERE `$column` = '$key' AND `UUID` = '$user_UUID'";
     $data = db_query_raw($db, $SQL);
     $presence = mysqli_num_rows($data);
 
-    echo "- $table, $column, $key : " . ($presence ? "OK" : "MISSING") . "\n";
+    $result .= "- $table, $column, $key : " . ($presence ? "OK" : "MISSING") . "\n";
 
     if(!$presence){
-        echo "\t Attempt to repair ... \n";
+        $result .= "\t Attempt to repair ... \n";
         db_query_no_result($db, "INSERT INTO `$table` (`UUID`, `$column`) VALUES ('$user_UUID', '$key')");
-        echo "\t Verification of the repair ... </br>";
+        $result .= "\t Verification of the repair ... </br>";
         $repaired = mysqli_num_rows(db_query_raw($db, $SQL));
         if($repaired)
-            echo "\t Repair successful \n";
+            $result .= "\t Repair successful \n";
         else
-            echo "\t Repair failed \n";
+            $result .= "\t Repair failed \n";
     }
 
-    return $presence;
+    return $result;
 }
-
-echo "<h2>Auto updating entries</h2>";
-
-// Auto updating table with missing entry
 
 // Getting users
+$result = "";
 $users = db_query_raw($db, "SELECT username, UUID FROM `users` ORDER BY username ASC");
 while($user = mysqli_fetch_assoc($users)) {
-    echo "<h4>Checking entry for " . $user['username'] . " - UUID : " . $user['UUID'] . "</h4>";
-    echo "<pre>";
+    $result .= "Checking entry for " . $user['username'] . " - UUID : " . $user['UUID'] . "\n";
 
     // config
-    fix_entry($user['UUID'], 'config', 'id', 'cmd_prefix');
-    fix_entry($user['UUID'], 'config', 'id', 'twitch_channel');
-    fix_entry($user['UUID'], 'config', 'id', 'twitch_connection_message');
-    fix_entry($user['UUID'], 'config', 'id', 'cmd_time_interval');
-    fix_entry($user['UUID'], 'config', 'id', 'cmd_msg_interval');
-    fix_entry($user['UUID'], 'config', 'id', 'shout_interval');
+    $result .= fix_entry($user['UUID'], 'config', 'id', 'cmd_prefix');
+    $result .= fix_entry($user['UUID'], 'config', 'id', 'twitch_channel');
+    $result .= fix_entry($user['UUID'], 'config', 'id', 'twitch_connection_message');
+    $result .= fix_entry($user['UUID'], 'config', 'id', 'cmd_time_interval');
+    $result .= fix_entry($user['UUID'], 'config', 'id', 'cmd_msg_interval');
+    $result .= fix_entry($user['UUID'], 'config', 'id', 'shout_interval');
 
     // shout
-    fix_entry($user['UUID'], 'shout', 'original', '#HEADER');
-    fix_entry($user['UUID'], 'shout', 'original', '#LANGUAGE');
+    $result .= fix_entry($user['UUID'], 'shout', 'original', '#HEADER');
+    $result .= fix_entry($user['UUID'], 'shout', 'original', '#LANGUAGE');
 
-
-
-    echo "</pre>";
+    $result .= "\n";
 }
-
-
-echo "<h2>Done<h2>";
-
 ?>
+
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Update - Raph_BOT</title>
+      <?php include("src/html/header.html"); ?>
+    </head>
+
+    <body>
+    <!-- TOP Navbar -->
+    <?php include("src/php/navbar.php"); ?>
+
+    <!-- Side Navbar -->        
+    <?php include("src/html/sidebar.html"); ?>
+
+    <!-- Main area -->
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <h1 class="page-header">Update and fix mandatory entries</h1>
+        <div class="row">
+            <div class="col-sm-12">
+                <pre class="log-update"><?php echo $result?></pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <?php include("src/html/footer.html"); ?>
+
+    <script>
+        $(document).ready(function() {
+            // Active the corresponding button in the navbar
+            document.getElementById("update").className="active"; 
+        });
+
+        function add_entry(){
+            Swal.fire({
+                title: "Add user",
+                html:   "<form id='swal-form' method='post'>"+
+                        "<input type='hidden' name='action' value='add'>"+
+                        "<label>Username</label><input type='text' class='form-control' name='username' required><br/>"+
+                        "</form>",
+                showCancelButton: true,
+                showConfirmButton: confirm,
+                focusConfirm: false,
+                allowOutsideClick: false,
+                width: "25%",
+                confirmButtonText: 'Add',
+                cancelButtonText: 'Cancel'
+            }).then((result) =>{
+                if(result.value)
+                    document.getElementById('swal-form').submit();
+            });
+        }
+    </script>
+
+</body>
+</html>
