@@ -16,16 +16,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $user_UUID = guidv4();
         db_query_no_result($db, "INSERT INTO `users` VALUES ('$user_UUID', '$username', NULL)");
 
-        // Setting up config table
-        db_query_no_result($db, "INSERT INTO `config` (`#`, `UUID`, `id`, `value`) VALUES
-            (NULL, '$user_UUID', 'twitch_channel', 'Your twitch channel'),
-            (NULL, '$user_UUID', 'cmd_prefix', '!'),
-            (NULL, '$user_UUID', 'twitch_connection_message', 'Your welcome message'),
-            (NULL, '$user_UUID', 'cmd_time_interval', '0'),
-            (NULL, '$user_UUID', 'cmd_msg_interval', '0');");
-
         // Setting up ports table
         db_query_no_result($db, "INSERT INTO `ports` VALUES ('$user_UUID', NULL)");
+
+        // Alert
+        $_SESSION['alert'] = ["info", "Go to the 'Update' tab to add mandatory entries to that user", false];
 
         header("Location: users.php");
         exit();
@@ -106,7 +101,10 @@ while($row = mysqli_fetch_assoc($data)) {
     </div>
 
     <!-- Footer -->
-    <?php include("src/html/footer.html"); ?>
+    <?php 
+        include("src/html/footer.html"); 
+        require_once("src/php/alert.php");
+    ?>
 
     <script>
         $(document).ready(function() {
