@@ -1,12 +1,13 @@
 <?php
 require_once('src/php/header.php');
 
-if($_SESSION['username'] != 'admin'){
+if ($_SESSION['username'] != 'admin') {
     header('Location: dashboard.php');
     exit();
 }
 
-function fix_entry($user_UUID, $table, $column, $key){ 
+function fix_entry($user_UUID, $table, $column, $key)
+{
     global $db;
     $result = "";
 
@@ -16,12 +17,12 @@ function fix_entry($user_UUID, $table, $column, $key){
 
     $result .= "- $table, $column, $key : " . ($presence ? "OK" : "MISSING") . "\n";
 
-    if(!$presence){
+    if (!$presence) {
         $result .= "\t Attempt to repair ... \n";
         db_query_no_result($db, "INSERT INTO `$table` (`UUID`, `$column`) VALUES ('$user_UUID', '$key')");
         $result .= "\t Verification of the repair ... </br>";
         $repaired = mysqli_num_rows(db_query_raw($db, $SQL));
-        if($repaired)
+        if ($repaired)
             $result .= "\t Repair successful \n";
         else
             $result .= "\t Repair failed \n";
@@ -33,7 +34,7 @@ function fix_entry($user_UUID, $table, $column, $key){
 // Getting users
 $result = "";
 $users = db_query_raw($db, "SELECT username, UUID FROM `users` ORDER BY username ASC");
-while($user = mysqli_fetch_assoc($users)) {
+while ($user = mysqli_fetch_assoc($users)) {
     $result .= "Checking entry for " . $user['username'] . " - UUID : " . $user['UUID'] . "\n";
 
     // config
@@ -54,16 +55,17 @@ while($user = mysqli_fetch_assoc($users)) {
 
 <!DOCTYPE html>
 <html>
-    <head>
-      <title>Update - Raph_BOT</title>
-      <?php include("src/html/header.html"); ?>
-    </head>
 
-    <body>
+<head>
+    <title>Update - Raph_BOT</title>
+    <?php include("src/html/header.html"); ?>
+</head>
+
+<body>
     <!-- TOP Navbar -->
     <?php include("src/php/navbar.php"); ?>
 
-    <!-- Side Navbar -->        
+    <!-- Side Navbar -->
     <?php include("src/html/sidebar.html"); ?>
 
     <!-- Main area -->
@@ -71,7 +73,7 @@ while($user = mysqli_fetch_assoc($users)) {
         <h1 class="page-header">Update and fix mandatory entries</h1>
         <div class="row">
             <div class="col-sm-12">
-                <pre class="log-update"><?php echo $result?></pre>
+                <pre class="log-update"><?php echo $result ?></pre>
             </div>
         </div>
     </div>
@@ -82,16 +84,16 @@ while($user = mysqli_fetch_assoc($users)) {
     <script>
         $(document).ready(function() {
             // Active the corresponding button in the navbar
-            document.getElementById("update").className="active"; 
+            document.getElementById("update").className = "active";
         });
 
-        function add_entry(){
+        function add_entry() {
             Swal.fire({
                 title: "Add user",
-                html:   "<form id='swal-form' method='post'>"+
-                        "<input type='hidden' name='action' value='add'>"+
-                        "<label>Username</label><input type='text' class='form-control' name='username' required><br/>"+
-                        "</form>",
+                html: "<form id='swal-form' method='post'>" +
+                    "<input type='hidden' name='action' value='add'>" +
+                    "<label>Username</label><input type='text' class='form-control' name='username' required><br/>" +
+                    "</form>",
                 showCancelButton: true,
                 showConfirmButton: confirm,
                 focusConfirm: false,
@@ -99,12 +101,13 @@ while($user = mysqli_fetch_assoc($users)) {
                 width: "25%",
                 confirmButtonText: 'Add',
                 cancelButtonText: 'Cancel'
-            }).then((result) =>{
-                if(result.value)
+            }).then((result) => {
+                if (result.value)
                     document.getElementById('swal-form').submit();
             });
         }
     </script>
 
 </body>
+
 </html>
