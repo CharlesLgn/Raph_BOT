@@ -8,22 +8,22 @@ var db = mysql.createConnection({
     database: config["db_name"]
 });
 
-db.connect(function(err) {
-    if(err) throw err;
+db.connect(function (err) {
+    if (err) throw err;
 })
 
-function query(sql){
-    return new Promise(resolve => db.query(sql, function(err, result){
+function query(sql) {
+    return new Promise(resolve => db.query(sql, function (err, result) {
         if (err) {
             console.error(err);
             resolve(null);
-        } 
+        }
 
         resolve(result);
     }));
 }
 
-async function load_config(UUID){
+async function load_config(UUID) {
     var result = [];
 
     // General config
@@ -33,7 +33,7 @@ async function load_config(UUID){
             result[element.id] = element.value;
         });
     }
-    catch (err){
+    catch (err) {
         console.error(err);
         process.exit(0);
     }
@@ -43,7 +43,7 @@ async function load_config(UUID){
     try {
         result["port"] = sql[0].port;
     }
-    catch (err){
+    catch (err) {
         console.error(err);
         process.exit(0);
     }
@@ -51,4 +51,4 @@ async function load_config(UUID){
     return result;
 }
 
-module.exports = {query, load_config}
+module.exports = { query, load_config }

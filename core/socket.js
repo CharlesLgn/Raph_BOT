@@ -15,19 +15,19 @@ var config = null;
 // GUI info
 var GUI = {
     twitch: false,
-    shout: {current: 0, max: 0},
-    trigger_time: {current: 0, max: 0, nb: 0},
-    trigger_msg: {current: 0, max: 0, nb: 0},
+    shout: { current: 0, max: 0 },
+    trigger_time: { current: 0, max: 0, nb: 0 },
+    trigger_msg: { current: 0, max: 0, nb: 0 },
 };
 
-function init(config_init){
+function init(config_init) {
     config = config_init;
     server.listen(config["port"]);
-    
+
     // Clear log file
     var path_to_log = __dirname + "/logs/lastest_" + config["UUID"] + ".log";
-    fs.truncate(path_to_log, 0, function(){console.log('Log file cleared.')});
-    stream_log = fs.createWriteStream(path_to_log, {flags:'a'});
+    fs.truncate(path_to_log, 0, function () { console.log('Log file cleared.') });
+    stream_log = fs.createWriteStream(path_to_log, { flags: 'a' });
 
     log("[CORE] Started (" + config["version"] + ") with UUID : '" + config["UUID"] + "'");
 }
@@ -39,7 +39,7 @@ io.sockets.on('connection', (socket) => {
 
     GUI_update();
 
-    socket.on('stop-core', function(){
+    socket.on('stop-core', function () {
         log("[CORE] Halted");
         process.exit(0);
     });
@@ -50,32 +50,32 @@ io.sockets.on('connection', (socket) => {
 
 });
 
-function GUI_update(){
-    if(web_client_connected)
+function GUI_update() {
+    if (web_client_connected)
         web_client.emit('update', JSON.stringify(GUI));
 }
 
-function twitch_state(state){
+function twitch_state(state) {
     GUI['twitch'] = state;
-    GUI_update(); 
-}
-
-function shout_update(current, max){
-    GUI['shout'] = {current, max};
     GUI_update();
 }
 
-function time_trigger_update(current, max, nb){
-    GUI['trigger_time'] = {current, max, nb};
+function shout_update(current, max) {
+    GUI['shout'] = { current, max };
     GUI_update();
 }
 
-function msg_trigger_update(current, max, nb){
-    GUI['trigger_msg'] = {current, max, nb};
+function time_trigger_update(current, max, nb) {
+    GUI['trigger_time'] = { current, max, nb };
     GUI_update();
 }
 
-function log(msg){
+function msg_trigger_update(current, max, nb) {
+    GUI['trigger_msg'] = { current, max, nb };
+    GUI_update();
+}
+
+function log(msg) {
     // Format
     var date = new Date;
     var time = ('0' + date.getHours()).slice(-2) + ":" + ('0' + date.getMinutes()).slice(-2) + ":" + ('0' + date.getSeconds()).slice(-2) + "." + ('00' + date.getMilliseconds()).slice(-3);
@@ -85,15 +85,15 @@ function log(msg){
     stream_log.write(msg);
 
     // Update UI
-    if(web_client_connected)
+    if (web_client_connected)
         web_client.emit('log', msg);
 }
 
-function play_audio(file, volume){
-    if(web_client_connected){
-        var data = {file, volume};
+function play_audio(file, volume) {
+    if (web_client_connected) {
+        var data = { file, volume };
         web_client.emit('play-audio', JSON.stringify(data));
     }
 }
 
-module.exports = {init, twitch_state, shout_update, time_trigger_update, msg_trigger_update, log, play_audio}
+module.exports = { init, twitch_state, shout_update, time_trigger_update, msg_trigger_update, log, play_audio }

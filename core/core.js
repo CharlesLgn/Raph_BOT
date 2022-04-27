@@ -7,14 +7,14 @@ const twitch = require('./twitch.js');
 var current_config = null;
 
 // Get UUID of instance
-if(UUID == "" || UUID == undefined){
+if (UUID == "" || UUID == undefined) {
     console.error("UUID is undefined.");
     process.exit(1);
 }
 
 load_config();
 
-async function load_config(){
+async function load_config() {
     // Load config
     current_config = await db.load_config(UUID);
     current_config["version"] = version;
