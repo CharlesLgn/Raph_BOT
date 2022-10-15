@@ -11,19 +11,19 @@ function init(config_init, socket_init) {
 }
 
 async function query_reaction(words) {
-    var sql = "( 0";
+    const reactions_key_in = words.map(word => "?").join(",")
+    const reactions_key_not_in = exclude_reactions.map(word => "?").join(",")
 
-    for (var word of words) {
-        sql += " OR reactions.key='" + word + "'";
-    }
+    const values = [UUID]
+    values.push(reactions_key_in)
+    values.push(reactions_key_not_in)
 
-    sql += ")"
-
-    // Exclude
-    var sql_exclude = "";
-    exclude_reactions.forEach(reaction => sql_exclude += " AND reactions.key != '" + reaction + "'");
-
-    var res = await db.query("SELECT `key`, reaction, frequency, timeout FROM reactions WHERE `UUID` = '" + UUID + "' AND " + sql + sql_exclude + " ORDER BY RAND() LIMIT 1");
+    var res = await db.query(`SELECT key, reaction, frequency, timeout
+                                  FROM reactions
+                                  WHERE UUID = ?
+                                    AND reactions.key IN (${reactions_key_in})
+                                    AND reactions.key NOT IN (${reactions_key_not_in})
+                                  ORDER BY RAND() LIMIT 1`, values);
     try {
         if (res[0]) {
             return res[0];

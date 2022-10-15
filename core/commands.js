@@ -48,7 +48,7 @@ async function msgTrigger() {
 }
 
 async function load_auto_command() {
-    var sql = await db.query("SELECT `command` FROM `commands` WHERE `UUID` = '" + UUID + "' AND `auto` = 1");
+    var sql = await db.query("SELECT command FROM commands WHERE UUID = ? AND auto = 1", [UUID]);
     var result = [];
 
     try {
@@ -74,8 +74,8 @@ async function auto_command() {
 }
 
 async function get_alias(request) {
-    var sql = "SELECT `command` FROM `alias_commands` WHERE `UUID` = '" + UUID + "' AND `alias` = '" + request + "'";
-    var res = await db.query(sql);
+    var sql = "SELECT command FROM alias_commands WHERE UUID = ? AND alias = ?";
+    var res = await db.query(sql, [UUID, request]);
 
     try {
         if (res[0])
@@ -90,8 +90,8 @@ async function get_alias(request) {
 }
 
 async function get_command(request) {
-    var sql = "SELECT `text` FROM `commands` WHERE `UUID` = '" + UUID + "' AND `command` = '" + request + "'";
-    var res = await db.query(sql);
+    var sql = "SELECT text FROM commands WHERE UUID = ? AND command = ?";
+    var res = await db.query(sql, [UUID, request]);
 
     try {
         if (res[0])

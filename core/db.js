@@ -12,8 +12,8 @@ db.connect(function (err) {
     if (err) throw err;
 })
 
-function query(sql) {
-    return new Promise(resolve => db.query(sql, function (err, result) {
+function query(sql, values) {
+    return new Promise(resolve => db.query(sql, values, function (err, result) {
         if (err) {
             console.error(err);
             resolve(null);
@@ -27,7 +27,7 @@ async function load_config(UUID) {
     var result = [];
 
     // General config
-    var sql = await query("SELECT * FROM `config` WHERE `UUID` = '" + UUID + "'");
+    var sql = await query("SELECT * FROM config WHERE UUID = ?", [UUID]);
     try {
         sql.forEach(element => {
             result[element.id] = element.value;
@@ -39,7 +39,7 @@ async function load_config(UUID) {
     }
 
     // Socket port
-    var sql = await query("SELECT `port` FROM `ports` WHERE `UUID` = '" + UUID + "'");
+    var sql = await query("SELECT port FROM ports WHERE UUID = ?", [UUID]);
     try {
         result["port"] = sql[0].port;
     }

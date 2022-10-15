@@ -13,7 +13,7 @@ function init(config_init, socket_init) {
 }
 
 async function load_header() {
-    var res = await db.query("SELECT replacement FROM shout WHERE `UUID` = '" + UUID + "' AND `original` = '#HEADER'");
+    var res = await db.query("SELECT replacement FROM shout WHERE UUID = ? AND original = '#HEADER'", [UUID]);
 
     try {
         if (res[0]) {
@@ -27,7 +27,7 @@ async function load_header() {
 }
 
 async function load_language() {
-    var res = await db.query("SELECT replacement FROM shout WHERE `UUID` = '" + UUID + "' AND `original` = '#LANGUAGE'");
+    var res = await db.query("SELECT replacement FROM shout WHERE UUID = ? AND original = '#LANGUAGE'", [UUID]);
 
     try {
         if (res[0]) {
@@ -41,7 +41,7 @@ async function load_language() {
 }
 
 async function load_words() {
-    var sql = await db.query("SELECT * FROM shout WHERE `UUID` = '" + UUID + "'");
+    var sql = await db.query("SELECT * FROM shout WHERE UUID = ?", [UUID]);
     var result = [];
 
     try {
